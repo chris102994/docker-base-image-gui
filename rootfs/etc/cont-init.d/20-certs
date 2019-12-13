@@ -1,0 +1,64 @@
+#!/usr/bin/with-contenv bash
+
+set -u # Unset Variables are an error
+set -e # Exit on error
+
+CERT_DIR="/config/certs"
+APP_NAME="sample"
+
+# Ensure Folder Structure Exists
+if [ ! -d $CERT_DIR ]; then
+	mkdir -p $CERT_DIR
+	chown -R 900:900 $CERT_DIR
+	chmod -R 0755 $CERT_DIR
+fi
+
+
+# Generate DH Parameters
+if [ ! -f "$CERT_DIR/dhparam.pem" ]; then
+	echo "Generating DH Parameters (2048), this will take a while. . ."
+	env HOME=/tmp s6-setuidgid 900:1000 openssl dhparam \
+				-out "$CERT_DIR/dhparam.pem" \
+				2048 \
+				> /dev/null 2>&1
+fi
+
+APP_NORMALIZE=$(echo "$APP_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+CERT_INFO="/C=CA/O=github.com\\/chris102994\\/$APP_NORMALIZE/OU=Docker Web App\CN=web.$APP_NORMALIZE.com"
+
+# Generate NGINX cert
+if [ ! -f "$CERT_DIR/web-fullchain.pem" ] && [ ! -f "$CERT_DIR/web-privkey.pem" ]; then
+	echo "Generating self-signed certificate for NGINX, this will take a while. . ."
+	env HOME=/tmp s6-setuidgid 900:1000 openssl req \
+				-x509 \
+				-nodes \
+				-days 365 \
+				-newkey rsa:2048 \
+				-subj "$CERT_INFO" \
+				-keyout "$CERT_DIR/web-privkey.pem" \
+				-out "$CERT_DIR/web-fullchain.pem" \
+				> /dev/null 2>&1
+	chmod 400 "$CERT_DIR/web-privkey.pem"
+fi
+
+# Generate VNC server cert
+if [ ! -f "$CERT_DIR/vnc-server.pem" ]; then
+	echo "Generating self-signed certificate for VNC server, this will take a while. . ."
+	TEMP_DIR="$(mktemp -d)"
+	env HOME=/tmp openssl req \
+				-x509 \
+				-nodes \
+				-days 365 \
+				-newkey rsa:2048 \
+				-subj "$CERT_INFO" \
+				-keyout "$TEMP_DIR/web-privkey.pem" \
+				-out "$TEMP_DIR/cert.pem" \
+				> /dev/null 2>&1
+	cat "$TEMP_DIR/web-privkey.pem" \
+		"$TEMP_DIR/cert.pem" \
+		"$CERT_DIR/dhparam.pem" \
+		> "$CERT_DIR/vnc-server.pem"
+	chmod 400 "$CERT_DIR/vnc-server.pem"
+	chown 900:1000 "$CERT_DIR/vnc-server.pem"
+	rm -rf "$TEMP_DIR"
+fi

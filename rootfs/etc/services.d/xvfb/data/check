@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv bash
+
+set -u # Unset Variables are an error
+set -e # Exit on error
+
+xdpyinfo -display "$DISPLAY" > /dev/null 2>&1

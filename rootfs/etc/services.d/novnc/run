@@ -1,0 +1,17 @@
+#!/usr/bin/with-contenv bash
+
+set -u # Unset Variables are an error
+set -e # Exit on error
+
+# Check process and kill if running.
+check_and_terminate_process 'python'
+
+# This wait's for the notification-fd file to be updated before executing.
+s6-svwait -t 10000 -U /var/run/s6/services/xvfb
+
+
+echo 'Starting novnc . . .'
+# This executes and notifies the notification-fd file so further processes can start.
+exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
+			s6-setuidgid 900:900 \
+			/etc/noVNC/utils/launch.sh --listen 5800 --cert /config/certs/vnc-server.pem

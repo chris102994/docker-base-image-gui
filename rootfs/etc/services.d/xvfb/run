@@ -1,0 +1,24 @@
+#!/usr/bin/with-contenv bash
+
+set -u # Unset Variables are an error
+set -e # Exit on error
+
+# Ensure tmp folder exists
+if [ ! -d '/tmp' ]; then
+	mkdir -p /tmp
+fi
+
+# Check process and kill if running
+check_and_terminate_process 'Xvfb'
+
+# Ensure that there's no lockfile for the X server
+rm -rf /tmp/.X$(echo $DISPLAY | cut -d':' -f2)-lock
+
+echo 'Starting xvfb . . .'
+# This executes and notifies the notification-fd file so further processes can start.
+exec 2>&1 /bin/s6-notifyoncheck -d \
+		 /usr/bin/Xvfb \
+		 ${DISPLAY} \
+		 -screen 0 ${DISPLAY_WIDTH}x${DISPLAY_HEIGHT}x24 \
+		 > /dev/null 2>&1
+

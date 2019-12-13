@@ -1,0 +1,37 @@
+#!/usr/bin/with-contenv bash
+
+set -u # Unset Variables are an error
+set -e # Exit on error
+
+# Check process and kill if running.
+check_and_terminate_process 'x11vnc'
+
+# This wait's for the notification-fd file to be updated before executing.
+s6-svwait -t 10000 -U /var/run/s6/services/xvfb
+
+
+# Ensure Log folder exists
+if [ ! -d '/config/log/x11vnc' ]; then
+	mkdir -p /config/log/x11vnc
+	chown -R 900:900 /config/log/x11vnc
+	chmod -R 0755 /config/log/x11vnc
+fi
+
+echo 'Starting x11vnc . . .'
+# This executes and notifies the notification-fd file so further processes can start.
+exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
+			/usr/bin/x11vnc \
+			-ncache 10 \
+			-o /config/log/x11vnc/x11vnc.log \
+			-display $DISPLAY \
+			-forever \
+			-desktop "$HOME" \
+			#-desktop "${APP_NAME}" \
+			-cursor arrow \
+			-shared \
+			-nopw \
+			> /dev/null 2>&1
+
+
+
+

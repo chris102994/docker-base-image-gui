@@ -3,9 +3,6 @@
 set -u # Unset Variables are an error
 set -e # Exit on error
 
-# Check process and kill if running.
-check_and_terminate_process 'python'
-
 # This wait's for the notification-fd file to be updated before executing.
 s6-svwait -t 10000 -U /var/run/s6/services/xvfb
 

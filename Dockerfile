@@ -22,7 +22,7 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 			curl -L -s ${NOVNC_URL} | tar xvzf - -C /etc/noVNC --strip-components 1 && \
 			mkdir -p /etc/noVNC/utils/websockify && \
 			curl -L -s ${WEBSOCKIFY_URL} | tar xvzf - -C /etc/noVNC/utils/websockify --strip-components 1 && \
-			sed -i 's#if ! ps -p ${proxy_pid} >/dev/null; then#if [ ! $(pgrep python) ]; then#g' /etc/noVNC/utils/launch.sh && \
+			sed -i 's#if ! ps -p ${proxy_pid} >/dev/null; then#if [[ ! $(pgrep -f websockify) ]]; then#g' /etc/noVNC/utils/launch.sh && \
 	echo "##### Downloading Runtime Packages #####" && \
 		apk add --no-cache \
 			libvncserver \
@@ -64,9 +64,7 @@ ENV DISPLAY=:0
 ENV	DISPLAY_WIDTH=1280
 ENV DISPLAY_HEIGHT=786
 # VNC Web Interface & VNC
-EXPOSE 5800
 EXPOSE 5700 
-EXPOSE 5900
 #Work Dir
 WORKDIR /config
 # Add Local Files

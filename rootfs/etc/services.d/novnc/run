@@ -11,4 +11,5 @@ echo 'Starting novnc . . .'
 # This executes and notifies the notification-fd file so further processes can start.
 exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
 			s6-setuidgid 900:900 \
-			/etc/noVNC/utils/launch.sh --listen 5800 --cert /config/certs/vnc-server.pem
+			/etc/noVNC/utils/launch.sh --listen 5800 --cert /config/certs/vnc-server.pem \
+			> /dev/null 2>&1

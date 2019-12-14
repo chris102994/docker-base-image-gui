@@ -1,5 +1,8 @@
 ## A minimal docker base image that provides a GUI for future apps that support long-term deployement.
 
+ [![Build Status](https://travis-ci.com/chris102994/docker-base-image-gui.svg?branch=master)](https://travis-ci.com/chris102994/docker-base-image-gui)
+
+
 ## Outside Packages
 * Built on my [Base Image](https://github.com/chris102994/docker-base-image)
   * [x11vnc](http://www.karlrunge.com/x11vnc/) - An X11 VNC Server.

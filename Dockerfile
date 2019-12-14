@@ -32,13 +32,30 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 			openssl \
 			openbox \
 			python \
-			py-numpy && \
+			py-numpy \
+			nginx && \
 	echo "##### Removing Unnecessary Files#####" && \
 		rm -rf \
-			/etc/init.d/ && \
+			/etc/init.d/ \
+			/etc/nginx/nginx.conf \
+			/etc/logrotate.d/nginx \
+			/etc/nginx/conf.d \
+			/etc/nginx/modules \
+			/var/lib/nginx/* \
+			/var/log/nginx \
+			/var/www && \
 	echo "#### Setting up users and groups ####" && \
+		userdel nginx && \
+		groupdel www-data && \
 		mkdir -p \
+			/config/log/nginx \
 			/config/certs && \
+		useradd -u 901 \
+				--system \
+				--home-dir /dev/null \
+				--no-create-home \
+				--shell /sbin/nologin \
+				nginx && \
 	echo "##### Cleaning Up #####" && \
 		apk del --purge build-dependencies
 
@@ -47,8 +64,11 @@ ENV DISPLAY=:0
 ENV	DISPLAY_WIDTH=1280
 ENV DISPLAY_HEIGHT=786
 # VNC Web Interface & VNC
-EXPOSE 5800 
+EXPOSE 5800
+EXPOSE 5700 
 EXPOSE 5900
+#Work Dir
+WORKDIR /config
 # Add Local Files
 COPY rootfs/ /
 

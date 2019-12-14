@@ -1,0 +1,34 @@
+#!/usr/bin/with-contenv bash
+
+set -u # Unset Variables are an error
+set -e # Exit on error
+
+
+# Check process and kill if running
+check_and_terminate_process 'nginx'
+
+# This wait's for the notification-fd file to be updated before executing.
+s6-svwait -t 10000 -U /var/run/s6/services/xvfb
+
+# Ensure tmp folder exists
+if [ ! -d '/tmp/nginx' ]; then
+	mkdir -p /tmp/nginx
+	chown -R 901:901 /tmp/nginx
+	chmod -R 0755 /tmp/nginx
+fi
+
+# Ensure Log folder exists
+if [ ! -d '/config/log/nginx' ]; then
+	mkdir -p /config/log/nginx/
+	touch /config/log/nginx/error.log
+	chown -R 901:901 /config/log/nginx
+	chmod -R 0766 /config/log/nginx
+fi
+
+
+
+echo 'Starting nginx . . .'
+exec 2>&1 /bin/s6-notifyoncheck -d -w 500 \
+		  /usr/sbin/nginx \
+		  -c /etc/nginx/nginx.conf \
+		  -g 'daemon off;'

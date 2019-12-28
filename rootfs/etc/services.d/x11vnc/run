@@ -28,7 +28,7 @@ exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
 			#-desktop "${APP_NAME}" \
 			-cursor arrow \
 			-shared \
-			-nopw \
+			-nopw -stunnel /config/certs/vnc-server.pem \
 			> /dev/null 2>&1
 
 

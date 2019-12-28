@@ -27,6 +27,7 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 		apk add --no-cache \
 			libvncserver \
 			x11vnc \
+			stunnel \
 			xvfb \
 			xdpyinfo \
 			openssl \

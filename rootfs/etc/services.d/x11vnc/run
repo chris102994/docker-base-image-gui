@@ -21,7 +21,6 @@ echo 'Starting x11vnc . . .'
 # This executes and notifies the notification-fd file so further processes can start.
 exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
 			/usr/bin/x11vnc \
-			-ncache 10 \
 			-o /config/log/x11vnc/x11vnc.log \
 			-display $DISPLAY \
 			-forever \

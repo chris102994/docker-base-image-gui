@@ -29,6 +29,7 @@ docker create \
 Container specific parameters passed at runtime. The format is `<external>:<internal>` (e.g. `-p 443:22` maps the container's port 22 to the host's port 443).
 
 | Parameter | Function |
+| -------- | -------- |
 | -e APP_NAME | The Name of the App. (Default = xterm) |
 | -p 5700 | The web encrypted UI port. |
 

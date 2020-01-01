@@ -377,6 +377,7 @@
   <application type="normal">
     <decor>yes</decor>
     <shade>yes</shade>
+    <maximized>true</maximized>
   </application>
 </applications>
 

@@ -2,14 +2,6 @@
 
  [![Build Status](https://travis-ci.com/chris102994/docker-base-image-gui.svg?branch=master)](https://travis-ci.com/chris102994/docker-base-image-gui)
 
-
-## Adding Subsequent Apps
-```
-sed -i 's#APP_NAME#<Your App Name>#g' /etc/xdg/openbox/menu.xml
-sed -i 's#APP_ICON_LOC#<Your App's Icon Path>#g' /etc/xdg/openbox/menu.xml
-sed -i 's#APP_COMMAND#<Your App's Command>#g' /etc/xdg/openbox/menu.xml
-```
-
 ## Outside Packages
 * Built on my [Base Image](https://github.com/chris102994/docker-base-image)
   * [x11vnc](http://www.karlrunge.com/x11vnc/) - An X11 VNC Server.
@@ -20,4 +12,36 @@ sed -i 's#APP_COMMAND#<Your App's Command>#g' /etc/xdg/openbox/menu.xml
   * [xterm](https://en.wikipedia.org/wiki/Xterm) - The Standard terminal emulator for the X window system.
   * [noVNC](https://github.com/novnc/noVNC) - A HTML5 VNC Client.
   * [websockify](https://github.com/novnc/websockify) - A WebSocket to TCP proxy/bridge that allows noVNC to connect to x11vnc.
-    * **Note:** I want to eventually replace this with a more lightweight solution that doesn't require python + numpy. Eventually x11vnc built with [libvncserver](https://libvnc.github.io/) should support this. 
+    * **Note:** I want to eventually replace this with a more lightweight solution that doesn't require python + numpy. Eventually x11vnc built with [libvncserver](https://libvnc.github.io/) *should* support this.
+
+## Docker
+```
+docker create \
+	--name=base-image-gui \
+	-e APP_NAME=xterm `optional` \
+	-p 5700:5700 \
+	-v </path/to/appdata/config>:/config \
+	--restart unless-stopped \
+	christopher102994/docker-base-image-gui-alpine-3.10
+```
+
+## Parameters
+Container specific parameters passed at runtime. The format is `<external>:<internal>` (e.g. `-p 443:22` maps the container's port 22 to the host's port 443).
+
+| Parameter | Function |
+| -e APP_NAME | The Name of the App. (Default = xterm) |
+| -p 5700 | The web encrypted UI port. |
+
+## Adding Subsequent Apps
+```
+# Ensure the openbox menu is correct
+sed -i 's#APP_NAME#<Your App Name>#g' /etc/xdg/openbox/menu.xml
+sed -i 's#APP_ICON_LOC#<Your App's Icon Path>#g' /etc/xdg/openbox/menu.xml
+sed -i 's#APP_COMMAND#<Your App's Command>#g' /etc/xdg/openbox/menu.xml
+
+# Ensure the app will autostart
+sed -i 's#APP_COMMAND#<Your App's Command>#g' /etc/xdg/openbox/autostart
+
+# Ensure the icon is correct for noVNC
+cp /path/to/16x16icon /etc/noVNC/app/images/icons/novnc-16x16.png
+``` 

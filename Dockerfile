@@ -22,7 +22,11 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 			curl -L -s ${NOVNC_URL} | tar xvzf - -C /etc/noVNC --strip-components 1 && \
 			mkdir -p /etc/noVNC/utils/websockify && \
 			curl -L -s ${WEBSOCKIFY_URL} | tar xvzf - -C /etc/noVNC/utils/websockify --strip-components 1 && \
+			# Busybox ps doesn't have -p option so we will do a simple pgrep for websockify
 			sed -i 's#if ! ps -p ${proxy_pid} >/dev/null; then#if [[ ! $(pgrep -f websockify) ]]; then#g' /etc/noVNC/utils/launch.sh && \
+			# Ensure the correct Icon shows up
+			sed -i -E 's#\s+<link rel="icon" sizes.*#    <link rel="icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">#g' /etc/noVNC/vnc.html && \
+			sed -i -E 's#\s+<link rel="apple-touch-icon" sizes.*#    <link rel="apple-touch-icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">#g' /etc/noVNC/vnc.html && \
 	echo "##### Downloading Runtime Packages #####" && \
 		apk add --no-cache \
 			libvncserver \
@@ -67,6 +71,7 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 ENV DISPLAY=:0
 ENV	DISPLAY_WIDTH=1280
 ENV DISPLAY_HEIGHT=720
+ENV APP_NAME=xterm
 # VNC Web Interface VNC
 EXPOSE 5700 
 #Work Dir

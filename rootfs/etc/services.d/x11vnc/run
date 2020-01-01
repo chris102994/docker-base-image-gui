@@ -24,8 +24,7 @@ exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
 			-o /config/log/x11vnc/x11vnc.log \
 			-display $DISPLAY \
 			-forever \
-			-desktop "$HOME" \
-			#-desktop "${APP_NAME}" \
+			-desktop "${APP_NAME}" \
 			-cursor arrow \
 			-shared \
 			-nopw -stunnel /config/certs/vnc-server.pem \

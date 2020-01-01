@@ -71,7 +71,6 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 ENV DISPLAY=:0
 ENV	DISPLAY_WIDTH=1280
 ENV DISPLAY_HEIGHT=720
-ENV APP_NAME=xterm
 # VNC Web Interface VNC
 EXPOSE 5700 
 #Work Dir

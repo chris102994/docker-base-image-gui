@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROCESS_NAME=Xvfb
+PROCESS_NAME=tint2
 
 get_number_of_processes(){
         mapfile -t PIDS < <( pgrep $1 )

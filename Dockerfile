@@ -29,14 +29,16 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 			x11vnc \
 			stunnel \
 			xvfb \
-			xdpyinfo \
 			openssl \
 			openbox \
 			python \
 			py-numpy \
-			nginx && \
+			nginx \
+			tint2 \
+			xterm && \
 	echo "##### Removing Unnecessary Files#####" && \
 		rm -rf \
+			/etc/xdg/autostart/ \
 			/etc/init.d/ \
 			/etc/nginx/nginx.conf \
 			/etc/logrotate.d/nginx \
@@ -57,14 +59,15 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 				--no-create-home \
 				--shell /sbin/nologin \
 				nginx && \
+		ln -s /config/log/nginx /var/lib/nginx/logs && \
 	echo "##### Cleaning Up #####" && \
 		apk del --purge build-dependencies
 
 # Env Vars
 ENV DISPLAY=:0
 ENV	DISPLAY_WIDTH=1280
-ENV DISPLAY_HEIGHT=786
-# VNC Web Interface & VNC
+ENV DISPLAY_HEIGHT=720
+# VNC Web Interface VNC
 EXPOSE 5700 
 #Work Dir
 WORKDIR /config

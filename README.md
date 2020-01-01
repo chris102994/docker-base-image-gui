@@ -22,7 +22,7 @@ docker create \
 	-p 5700:5700 \
 	-v </path/to/appdata/config>:/config \
 	--restart unless-stopped \
-	christopher102994/docker-base-image-gui-alpine-3.10
+	christopher102994/docker-base-img-gui-alpine-3.10
 ```
 
 ## Parameters

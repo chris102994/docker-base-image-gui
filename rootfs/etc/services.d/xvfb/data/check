@@ -1,19 +1,6 @@
-#!/bin/bash
+#!/usr/bin/with-contenv bash
 
-PROCESS_NAME=Xvfb
+set -u # Unset Variables are an error
+set -e # Exit on error
 
-get_number_of_processes(){
-        mapfile -t PIDS < <( pgrep $1 )
-        LENGTH=${#PIDS[@]}
-        echo $LENGTH
-}
-
-
-EXIT_VALUE=1
-# Simple check to see if I can pgrep the process.
-# If you can then the process is up at the very least.
-if [ $(get_number_of_processes $PROCESS_NAME) -ne 0 ]; then
-	EXIT_VALUE=0
-fi
-
-exit $EXIT_VALUE
+xdpyinfo -display "$DISPLAY" > /dev/null 2>&1

@@ -16,13 +16,13 @@
 
 ## Docker
 ```
-docker create \
+docker run \
 	--name=base-image-gui \
 	-e APP_NAME=xterm `optional` \
 	-p 5700:5700 \
 	-v </path/to/appdata/config>:/config \
 	--restart unless-stopped \
-	christopher102994/docker-base-img-gui-alpine-3.10
+	christopher102994/docker-base-img-gui:alpine-3.10
 ```
 
 ## Parameters

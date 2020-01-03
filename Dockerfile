@@ -73,8 +73,6 @@ ENV DISPLAY_WIDTH=1280
 ENV DISPLAY_HEIGHT=720
 # VNC Web Interface VNC
 EXPOSE 5700 
-#Work Dir
-WORKDIR /config
 # Add Local Files
 COPY rootfs/ /
 

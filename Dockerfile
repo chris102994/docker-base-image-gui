@@ -1,5 +1,5 @@
 # Pull the base image
-FROM christopher102994/docker-base-img-alpine-3.10:latest
+FROM christopher102994/docker-base-img:alpine-3.10
 MAINTAINER chris102994<chris102994@yahoo.com>
 ARG BUILD_DATE
 ARG VERSION

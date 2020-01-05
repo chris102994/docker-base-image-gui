@@ -23,10 +23,11 @@ exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
 			/usr/bin/x11vnc \
 			-o /config/log/x11vnc/x11vnc.log \
 			-display $DISPLAY \
-			-forever \
 			-desktop "${APP_NAME:-Docker Base GUI}" \
 			-cursor arrow \
+			-repeat \
 			-shared \
+			-forever \
 			> /dev/null 2>&1
 
 

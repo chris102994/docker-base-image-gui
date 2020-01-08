@@ -9,10 +9,10 @@ APP_NAME="sample"
 # Ensure Folder Structure Exists
 if [ ! -d $CERT_DIR ]; then
 	mkdir -p $CERT_DIR
-	chown -R 900:900 $CERT_DIR
-	chmod -R 0755 $CERT_DIR
 fi
 
+chown -R 900:900 $CERT_DIR
+chmod -R 0755 $CERT_DIR
 
 # Generate DH Parameters
 if [ ! -f "$CERT_DIR/dhparam.pem" ]; then
@@ -38,8 +38,9 @@ if [ ! -f "$CERT_DIR/web-fullchain.pem" ] && [ ! -f "$CERT_DIR/web-privkey.pem" 
 				-keyout "$CERT_DIR/web-privkey.pem" \
 				-out "$CERT_DIR/web-fullchain.pem" \
 				> /dev/null 2>&1
-	chmod 400 "$CERT_DIR/web-privkey.pem"
 fi
+
+chmod 400 "$CERT_DIR/web-privkey.pem"
 
 # Generate VNC server cert
 if [ ! -f "$CERT_DIR/vnc-server.pem" ]; then
@@ -58,7 +59,8 @@ if [ ! -f "$CERT_DIR/vnc-server.pem" ]; then
 		"$TEMP_DIR/cert.pem" \
 		"$CERT_DIR/dhparam.pem" \
 		> "$CERT_DIR/vnc-server.pem"
-	chmod 400 "$CERT_DIR/vnc-server.pem"
-	chown 900:1000 "$CERT_DIR/vnc-server.pem"
 	rm -rf "$TEMP_DIR"
 fi
+
+chmod 400 "$CERT_DIR/vnc-server.pem"
+chown 900:1000 "$CERT_DIR/vnc-server.pem"

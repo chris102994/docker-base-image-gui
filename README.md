@@ -1,6 +1,9 @@
 ## A minimal docker base image that provides a GUI for future apps that support long-term deployement.
 
  [![Build Status](https://travis-ci.com/chris102994/docker-base-image-gui.svg?branch=master)](https://travis-ci.com/chris102994/docker-base-image-gui)
+ [![Image Size](https://img.shields.io/microbadger/image-size/christopher102994/docker-base-img-gui/alpine-3.10)](https://hub.docker.com/repository/docker/christopher102994/docker-base-img-gui)
+ [![Image Layers](https://img.shields.io/microbadger/layers/christopher102994/docker-base-img-gui/alpine-3.10)](https://hub.docker.com/repository/docker/christopher102994/docker-base-img-gui)
+ [![Image Pulls](https://img.shields.io/docker/pulls/christopher102994/docker-base-img-gui)](https://hub.docker.com/repository/docker/christopher102994/docker-base-img-gui)
 
 ## Outside Packages
 * Built on my [Base Image](https://github.com/chris102994/docker-base-image)

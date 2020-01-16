@@ -3,6 +3,9 @@ FROM christopher102994/docker-base-img:alpine-3.10
 MAINTAINER chris102994<chris102994@yahoo.com>
 ARG BUILD_DATE
 ARG VERSION
+ARG VCS_REF
+LABEL org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/chris102994/docker-base-image-gui"
 # Package Versions
 ARG NOVNC_VERSION=1.1.0
 ARG WEBSOCKIFY_VERSION=0.9.0

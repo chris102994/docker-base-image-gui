@@ -3,6 +3,8 @@
  [![Build Status](https://travis-ci.com/chris102994/docker-base-image-gui.svg?branch=master)](https://travis-ci.com/chris102994/docker-base-image-gui)
 [![Microbadger Size & Layers](https://images.microbadger.com/badges/image/christopher102994/docker-base-img-gui.svg)](https://microbadger.com/images/christopher102994/docker-base-img-gui "Get your own image badge on microbadger.com")
  [![Image Pulls](https://img.shields.io/docker/pulls/christopher102994/docker-base-img-gui)](https://hub.docker.com/repository/docker/christopher102994/docker-base-img-gui)
+ [![Alpine](https://images.microbadger.com/badges/version/christopher102994/docker-base-img-gui.svg)](https://microbadger.com/images/christopher102994/docker-base-img-gui "Get your own version badge on microbadger.com")
+ [![Debian](https://images.microbadger.com/badges/version/christopher102994/docker-base-img-gui:debian-10.svg)](https://microbadger.com/images/christopher102994/docker-base-img-gui:debian-10 "Get your own version badge on microbadger.com")
 
 ## Outside Packages
 * Built on my [Base Image](https://github.com/chris102994/docker-base-image)

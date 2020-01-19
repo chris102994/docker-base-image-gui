@@ -36,16 +36,14 @@ Container specific parameters passed at runtime. The format is `<external>:<inte
 | -------- | -------- |
 | -e APP_NAME | The Name of the App. (Default = xterm) |
 | -p 5700 | The web encrypted UI port. |
+| -v /config | All the config files for your app. |
 
 ## Adding Subsequent Apps
 ```
 # Ensure the openbox menu is correct
 sed -i 's#APP_NAME#<Your App Name>#g' /etc/xdg/openbox/menu.xml
 sed -i 's#APP_ICON_LOC#<Your App's Icon Path>#g' /etc/xdg/openbox/menu.xml
-sed -i 's#APP_COMMAND#<Your App's Command>#g' /etc/xdg/openbox/menu.xml
-
-# Ensure the app will autostart
-sed -i 's#APP_COMMAND#<Your App's Command>#g' /etc/xdg/openbox/autostart
+sed -i 's#APP_COMMAND#<Your App's Command>#g' /app/start_app.sh
 
 # Ensure the icon is correct for noVNC
 cp /path/to/16x16icon /etc/noVNC/app/images/icons/novnc-16x16.png

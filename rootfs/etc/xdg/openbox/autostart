@@ -4,4 +4,4 @@
 # to run user-specific things.
 #
 
-APP_COMMAND &
+/app/start_app.sh &

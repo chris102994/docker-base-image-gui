@@ -22,8 +22,8 @@ jobs:
   - stage: Alpine Container
     env: 
     - DOCKER_FILE=Dockerfile.alpine 
-    - BASE_IMAGE=alpine:3.10 
-    - IMAGE_TAG=christopher102994/docker-base-img:alpine-3.10
+    - BASE_IMAGE=christopher102994/docker-base-img:alpine-3.10
+    - IMAGE_TAG=alpine-3.10
     script: tools/scripts/make_container.sh
     deploy:
         provider: script

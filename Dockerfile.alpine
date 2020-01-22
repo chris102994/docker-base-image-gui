@@ -1,5 +1,6 @@
 # Pull the base image
-FROM christopher102994/docker-base-img:alpine-3.10
+ARG BASE_IMAGE
+FROM christopher102994/docker-base-img:${BASE_IMAGE}
 MAINTAINER chris102994<chris102994@yahoo.com>
 ARG BUILD_DATE
 ARG VERSION
@@ -14,7 +15,7 @@ ARG NOVNC_URL=https://github.com/novnc/noVNC/archive/v${NOVNC_VERSION}.tar.gz
 ARG WEBSOCKIFY_URL=https://github.com/novnc/websockify/archive/v${WEBSOCKIFY_VERSION}.tar.gz
 # ENV Vars for Builder Script
 RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
-		install --virtual build-dependencies \
+		inst-pkg --virtual build-dependencies \
 			curl \
 			tar \
 			tzdata \
@@ -31,7 +32,7 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 			sed -i -E 's#\s+<link rel="icon" sizes.*#    <link rel="icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">#g' /etc/noVNC/vnc.html && \
 			sed -i -E 's#\s+<link rel="apple-touch-icon" sizes.*#    <link rel="apple-touch-icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">#g' /etc/noVNC/vnc.html && \
 	echo "##### Downloading Runtime Packages #####" && \
-		install \
+		inst-pkg \
 			libvncserver \
 			x11vnc \
 			xvfb \
@@ -70,7 +71,7 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 		ln -s /usr/bin/python3 /usr/bin/python && \
 		ln -s /usr/bin/pip3 /usr/bin/pip && \
 	echo "##### Cleaning Up #####" && \
-		remove build-dependencies
+		rm-pkg build-dependencies
 
 # Env Vars
 ENV DISPLAY=:0

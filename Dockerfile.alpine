@@ -1,5 +1,5 @@
 # Pull the base image
-ARG BASE_IMAGE
+ARG BASE_IMAGE=unknown
 FROM christopher102994/docker-base-img:${BASE_IMAGE}
 MAINTAINER chris102994<chris102994@yahoo.com>
 ARG BUILD_DATE

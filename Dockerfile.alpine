@@ -41,9 +41,7 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 			openbox \
 			python3 \
 			py-numpy \
-			nginx \
-			tint2 \
-			xterm && \
+			nginx && \
 	echo "##### Removing Unnecessary Files#####" && \
 		rm -rf \
 			/etc/xdg/autostart/ \

@@ -11,7 +11,6 @@
   * [x11vnc](http://www.karlrunge.com/x11vnc/) - An X11 VNC Server.
   * [xvfb](https://www.x.org/releases/X11R7.6/doc/man/man1/Xvfb.1.xhtml) - An X Virtual Framebuffer Display Server.
   * [openbox](http://openbox.org/wiki/Main_Page) - A lightweight window manager.
-  * [tint2](https://gitlab.com/o9000/tint2) - A lightweight panel/taskbar for Linux and BSD.
   * [nginx](https://www.nginx.com/) - A high performance HTTP server and reverse Proxy.
   * [xterm](https://en.wikipedia.org/wiki/Xterm) - The Standard terminal emulator for the X window system.
   * [noVNC](https://github.com/novnc/noVNC) - A HTML5 VNC Client.
@@ -41,8 +40,6 @@ Container specific parameters passed at runtime. The format is `<external>:<inte
 ## Adding Subsequent Apps
 ```
 # Ensure the openbox menu is correct
-sed -i 's#APP_NAME#<Your App Name>#g' /etc/xdg/openbox/menu.xml
-sed -i 's#APP_ICON_LOC#<Your App's Icon Path>#g' /etc/xdg/openbox/menu.xml
 sed -i 's#APP_COMMAND#<Your App's Command>#g' /app/start_app.sh
 
 # Ensure the icon is correct for noVNC

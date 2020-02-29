@@ -11,7 +11,7 @@ services:
   - docker
 
 git:
-  submodules: true
+  submodules: false
 
 env:
   global:
@@ -22,6 +22,7 @@ jobs:
   include:
   - stage: Alpine Container
     script:
+      - git submodule update --init --recursive
       - source tools/scripts/load_env_files.sh versions/alpine-3.10.env
       - source tools/scripts/versioning.sh 
       - tools/scripts/make_container.sh
@@ -31,6 +32,7 @@ jobs:
         
   - stage: Debian Container
     script:
+      - git submodule update --init --recursive
       - source tools/scripts/load_env_files.sh versions/debian-10.env
       - source tools/scripts/versioning.sh 
       - tools/scripts/make_container.sh
@@ -40,6 +42,7 @@ jobs:
 
   - stage: Ubuntu Container
     script:
+      - git submodule update --init --recursive
       - source tools/scripts/load_env_files.sh versions/ubuntu-18.env
       - source tools/scripts/versioning.sh 
       - tools/scripts/make_container.sh
@@ -49,5 +52,6 @@ jobs:
 
   - stage: Git Tag
     script: 
+      - git submodule update --init --recursive
       - source tools/scripts/versioning.sh
       - tools/scripts/push_git_tag.sh

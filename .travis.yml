@@ -13,17 +13,12 @@ services:
 git:
   submodules: false
 
-env:
-  global:
-  - DOCKER_REPO=christopher102994
-  - DOCKER_NAME=docker-base-img-gui
-
 jobs:
   include:
   - stage: Alpine Container
     script:
       - git submodule update --init --recursive
-      - source tools/scripts/load_env_files.sh versions/alpine-3.10.env
+      - source tools/scripts/load_env_files.sh versions/alpine-3.10.env versions/docker-base-image-gui.env
       - source tools/scripts/versioning.sh 
       - tools/scripts/make_container.sh
     deploy:
@@ -33,7 +28,7 @@ jobs:
   - stage: Debian Container
     script:
       - git submodule update --init --recursive
-      - source tools/scripts/load_env_files.sh versions/debian-10.env
+      - source tools/scripts/load_env_files.sh versions/debian-10.env versions/docker-base-image-gui.env
       - source tools/scripts/versioning.sh 
       - tools/scripts/make_container.sh
     deploy:
@@ -43,15 +38,17 @@ jobs:
   - stage: Ubuntu Container
     script:
       - git submodule update --init --recursive
-      - source tools/scripts/load_env_files.sh versions/ubuntu-18.env
+      - source tools/scripts/load_env_files.sh versions/ubuntu-18.env versions/docker-base-image-gui.env
       - source tools/scripts/versioning.sh 
       - tools/scripts/make_container.sh
     deploy:
         provider: script
         script: tools/scripts/push_to_registry.sh
 
-  - stage: Git Tag
+  - stage: Git Tag & Docker Hub README
     script: 
       - git submodule update --init --recursive
+      - source tools/scripts/load_env_files.sh versions/docker-base-image-gui.env 
       - source tools/scripts/versioning.sh
       - tools/scripts/push_git_tag.sh
+      - tools/scripts/push_readme_to_dockerhub.sh

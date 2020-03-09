@@ -45,7 +45,7 @@ jobs:
         -b true \
         -p true
 
-    - stage: Git Tag & Docker Hub README
+  - stage: Git Tag & Docker Hub README
     script: 
       - git submodule update --init --remote
       - |

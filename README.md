@@ -1,11 +1,11 @@
 ## A minimal docker base image that provides a GUI for future apps that support long-term deployement.
 
- [![Build Status](https://travis-ci.com/chris102994/docker-base-image-gui.svg?branch=master)](https://travis-ci.com/chris102994/docker-base-image-gui)
-[![Microbadger Size & Layers](https://images.microbadger.com/badges/image/christopher102994/docker-base-img-gui.svg)](https://microbadger.com/images/christopher102994/docker-base-img-gui "Get your own image badge on microbadger.com")
- [![Image Pulls](https://img.shields.io/docker/pulls/christopher102994/docker-base-img-gui)](https://hub.docker.com/repository/docker/christopher102994/docker-base-img-gui)
- [![Alpine](https://images.microbadger.com/badges/version/christopher102994/docker-base-img-gui:alpine-3.10-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-img-gui:alpine-3.10-latest "Get your own version badge on microbadger.com")
- [![Debian](https://images.microbadger.com/badges/version/christopher102994/docker-base-img-gui:debian-10-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-img-gui:debian-10-latest "Get your own version badge on microbadger.com")
- [![Ubuntu](https://images.microbadger.com/badges/version/christopher102994/docker-base-img-gui:ubuntu-18-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-img-gui:ubuntu-18-latest "Get your own version badge on microbadger.com")
+ [![Build Status](https://travis-ci.com/chris102994/docker-base-image-gui.svg?branch=master)](https://travis-ci.com/chris102994/docker-base-image-gui "Build Status")
+[![Microbadger Size & Layers](https://images.microbadger.com/badges/image/christopher102994/docker-base-image-gui.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui "Image Size")
+ [![Image Pulls](https://img.shields.io/docker/pulls/christopher102994/docker-base-image-gui)](https://hub.docker.com/repository/docker/christopher102994/docker-base-image-gui "Docker Hub Info")
+ [![Alpine](https://images.microbadger.com/badges/version/christopher102994/docker-base-image-gui:alpine-3.10-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui:alpine-3.10-latest "Alpine Image")
+ [![Debian](https://images.microbadger.com/badges/version/christopher102994/docker-base-image-gui:debian-10-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui:debian-10-latest "Debian Image")
+ [![Ubuntu](https://images.microbadger.com/badges/version/christopher102994/docker-base-image-gui:ubuntu-18-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui:ubuntu-18-latest "Ubuntu Image")
 
 ## Outside Packages
 * Built on my [Base Image](https://github.com/chris102994/docker-base-image)
@@ -26,7 +26,7 @@ docker run \
 	-p 5700:5700 \
 	-v </path/to/appdata/config>:/config \
 	--restart unless-stopped \
-	christopher102994/docker-base-img-gui:alpine-3.10
+	christopher102994/docker-base-image-gui:alpine-3.10
 ```
 
 ## Parameters

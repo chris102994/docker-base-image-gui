@@ -43,6 +43,7 @@ jobs:
         --envfile versions/docker-base-image-gui.env \
         --build \
         --pushdr
+
   - stage: Git Tag & Docker Hub README
     script: 
       - git submodule update --init --remote

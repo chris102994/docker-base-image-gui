@@ -20,8 +20,8 @@ jobs:
       - git submodule update --init --remote
       - |
         tools/build/build_container.sh \
-        --envfile versions/alpine-3.10.env \
-        --envfile versions/docker-base-image-gui.env \
+        ---envfilenvfile versions/alpine-3.10.env \
+        ---envfilenvfile versions/docker-base-image-gui.env \
         --build \
         --pushdr
         
@@ -30,8 +30,8 @@ jobs:
       - git submodule update --init --remote
       - |
         tools/build/build_container.sh \
-        --envfile versions/debian-10.env \
-        --envfile versions/docker-base-image-gui.env \
+        ---envfilenvfile versions/debian-10.env \
+        ---envfilenvfile versions/docker-base-image-gui.env \
         --build \
         --pushdr
   - stage: Ubuntu Container
@@ -39,8 +39,8 @@ jobs:
       - git submodule update --init --remote
       - |
         tools/build/build_container.sh \
-        --envfile versions/ubuntu-18.env \
-        --envfile versions/docker-base-image-gui.env \
+        ---envfilenvfile versions/ubuntu-18.env \
+        ---envfilenvfile versions/docker-base-image-gui.env \
         --build \
         --pushdr
 
@@ -49,6 +49,6 @@ jobs:
       - git submodule update --init --remote
       - |
         tools/build/build_container.sh \
-        --envfile versions/docker-base-image-gui.env \
+        ---envfilenvfile versions/docker-base-image-gui.env \
         --pushgt \
         --pushrm

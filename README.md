@@ -40,9 +40,6 @@ Container specific parameters passed at runtime. The format is `<external>:<inte
 
 ## Adding Subsequent Apps
 ```
-# Ensure the openbox menu is correct
-sed -i 's#APP_COMMAND#<Your App's Command>#g' /app/start_app.sh
-
 # Ensure the icon is correct for noVNC
 cp /path/to/16x16icon /etc/noVNC/app/images/icons/novnc-16x16.png
 ``` 

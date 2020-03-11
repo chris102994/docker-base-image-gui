@@ -6,6 +6,14 @@ set -e # Exit on error
 # Check process and kill if running.
 check_and_terminate_process 'x11vnc'
 
+# VNC Password
+ROOT_FILE="/root/.vncpass"
+if [ -f "$ROOT_FILE" ] && [ -s "$ROOT_FILE" ]; then
+	VNC_PASS="-rfbauth $ROOT_FILE"
+else
+	VNC_PASS="-nopw"
+fi
+
 # This wait's for the notification-fd file to be updated before executing.
 s6-svwait -t 10000 -U /var/run/s6/services/xvfb
 
@@ -24,6 +32,7 @@ exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
 			-o /config/log/x11vnc/x11vnc.log \
 			-display $DISPLAY \
 			-desktop "${APP_NAME:-Docker Base GUI}" \
+			$VNC_PASS \
 			-cursor arrow \
 			-repeat \
 			-shared \

@@ -22,11 +22,11 @@
 ```
 docker run \
 	--name=base-image-gui \
-	-e APP_NAME=xterm `optional` \
+  -e VNC_PASSWORD=password `optional` \
 	-p 5700:5700 \
 	-v </path/to/appdata/config>:/config \
 	--restart unless-stopped \
-	christopher102994/docker-base-image-gui:alpine-3.10
+	christopher102994/docker-base-image-gui:alpine-3.10-latest
 ```
 
 ## Parameters
@@ -34,7 +34,10 @@ Container specific parameters passed at runtime. The format is `<external>:<inte
 
 | Parameter | Function |
 | -------- | -------- |
-| -e APP_NAME | The Name of the App. (Default = xterm) |
+| -e APP_NAME | The Name of the App. (Optional - Recommended) |
+| -e VNC_PASSWORD | Password for the VNC session. (Optional) |
+| -e DISPLAY_WIDTH | VNC Server's display width. (Optional) |
+| -e DISPLAY_HEIGHT | VNC Server's displat height. (Optional) |
 | -p 5700 | The web encrypted UI port. |
 | -v /config | All the config files for your app. |
 

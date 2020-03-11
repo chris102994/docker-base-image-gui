@@ -4,32 +4,32 @@ set -u # Unset Variables are an error
 set -e # Exit on error
 
 CERT_DIR="/config/certs"
-APP_NAME="sample"
+APP_NAME=${APP_NAME:-docker-base-image-gui}
 
 # Ensure Folder Structure Exists
 if [ ! -d $CERT_DIR ]; then
 	mkdir -p $CERT_DIR
 fi
 
-chown -R 900:900 $CERT_DIR
+chown -R $PUID:$PGID $CERT_DIR
 chmod -R 0755 $CERT_DIR
 
 # Generate DH Parameters
 if [ ! -f "$CERT_DIR/dhparam.pem" ]; then
-	echo "Generating DH Parameters (2048), this will take a while. . ."
-	env HOME=/tmp s6-setuidgid 900:1000 openssl dhparam \
+	log $(basename $0) "Generating DH Parameters (2048), this will take a while. . ."
+	env HOME=/tmp s6-setuidgid $PUID:$PGID openssl dhparam \
 				-out "$CERT_DIR/dhparam.pem" \
 				2048 \
 				> /dev/null 2>&1
 fi
 
 APP_NORMALIZE=$(echo "$APP_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
-CERT_INFO="/C=CA/O=github.com\\/chris102994\\/$APP_NORMALIZE/OU=Docker Web App\CN=web.$APP_NORMALIZE.com"
+CERT_INFO="/C=CA/O=github.com\\/chris102994\\/$APP_NORMALIZE/OU=$APP_NORMALIZE\CN=web.$APP_NORMALIZE.com"
 
 # Generate NGINX cert
 if [ ! -f "$CERT_DIR/web-fullchain.pem" ] && [ ! -f "$CERT_DIR/web-privkey.pem" ]; then
-	echo "Generating self-signed certificate for NGINX, this will take a while. . ."
-	env HOME=/tmp s6-setuidgid 900:1000 openssl req \
+	log $(basename $0) "Generating self-signed certificate for NGINX, this will take a while. . ."
+	env HOME=/tmp s6-setuidgid $PUID:$PGID openssl req \
 				-x509 \
 				-nodes \
 				-days 365 \
@@ -44,7 +44,7 @@ chmod 400 "$CERT_DIR/web-privkey.pem"
 
 # Generate VNC server cert
 if [ ! -f "$CERT_DIR/vnc-server.pem" ]; then
-	echo "Generating self-signed certificate for VNC server, this will take a while. . ."
+	log $(basename $0) "Generating self-signed certificate for VNC server, this will take a while. . ."
 	TEMP_DIR="$(mktemp -d)"
 	env HOME=/tmp openssl req \
 				-x509 \
@@ -63,4 +63,4 @@ if [ ! -f "$CERT_DIR/vnc-server.pem" ]; then
 fi
 
 chmod 400 "$CERT_DIR/vnc-server.pem"
-chown 900:1000 "$CERT_DIR/vnc-server.pem"
+chown $PUID:$PGID "$CERT_DIR/vnc-server.pem"

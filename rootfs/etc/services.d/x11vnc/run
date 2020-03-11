@@ -21,11 +21,12 @@ s6-svwait -t 10000 -U /var/run/s6/services/xvfb
 # Ensure Log folder exists
 if [ ! -d '/config/log/x11vnc' ]; then
 	mkdir -p /config/log/x11vnc
-	chown -R 900:900 /config/log/x11vnc
-	chmod -R 0755 /config/log/x11vnc
 fi
 
-echo 'Starting x11vnc . . .'
+chown -R $PUID:$PGID /config/log/x11vnc
+chmod -R 0755 /config/log/x11vnc
+
+log "x11vnc" "Starting . . ."
 # This executes and notifies the notification-fd file so further processes can start.
 exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
 			/usr/bin/x11vnc \

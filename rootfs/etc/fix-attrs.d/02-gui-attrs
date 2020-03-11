@@ -1,3 +1,0 @@
-/config/log/nginx true nginx,901:901 0755 0755
-/config/certs true nginx,901:901 0755 0755
-/etc/nginx true,901:901 0755 0755

@@ -14,9 +14,9 @@ export HOME=/config
 export DISPLAY=$DISPLAY
 export USER=user
 
-echo 'Starting openbox . . .'
+log "openbox" "Starting . . ."
 # This executes and notifies the notification-fd file so further processes can start.
 exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
-			s6-setuidgid 900:900 \
+			s6-setuidgid $PUID:$PGID \
 			/usr/bin/openbox-session \
 			> /dev/null 2>&1

@@ -13,21 +13,24 @@ s6-svwait -t 10000 -U /var/run/s6/services/xvfb
 # Ensure tmp folder exists
 if [ ! -d '/tmp/nginx' ]; then
 	mkdir -p /tmp/nginx
-	chown -R 901:901 /tmp/nginx
-	chmod -R 0755 /tmp/nginx
 fi
+
+chown -R 901:901 /tmp/nginx
+chmod -R 0755 /tmp/nginx
 
 # Ensure Log folder exists
 if [ ! -d '/config/log/nginx' ]; then
 	mkdir -p /config/log/nginx/
 	touch /config/log/nginx/error.log
-	chown -R 901:901 /config/log/nginx
-	chmod -R 0766 /config/log/nginx
 fi
 
+chown -R 901:901 /config/log/nginx
+chmod -R 0755 /config/log/nginx
 
+chown -R 901:901 /etc/nginx
+chmod -R 0755 /etc/nginx
 
-echo 'Starting nginx . . .'
+log "nginx" "Starting . . ."
 exec 2>&1 /bin/s6-notifyoncheck -d -w 500 \
 		  /usr/sbin/nginx \
 		  -c /etc/nginx/nginx.conf \

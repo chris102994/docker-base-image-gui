@@ -1,7 +1,110 @@
 # Pull the base image
 ARG BASE_IMAGE=unknown
+
+FROM ${BASE_IMAGE} as compile-stage
+# Package Versions
+# TODO: Once 0.9.13 releases use it instead
+ARG LIBVNCSERVER_VERSION=eae5306
+ARG X11VNC_VERSION=0.9.16
+ARG STUNNEL_VERSION=5.56
+# Package URLs
+ARG LIBVNCSERVER_URL=https://github.com/LibVNC/libvncserver/tarball/${LIBVNCSERVER_VERSION}
+ARG X11VNC_URL=https://github.com/LibVNC/x11vnc/archive/${X11VNC_VERSION}.tar.gz
+ARG STUNNEL_URL=https://www.stunnel.org/downloads/stunnel-${STUNNEL_VERSION}.tar.gz
+# Dirs
+ARG BUILD_ROOT="/tmp/build-root"
+ARG INSTALL_LOCATION="/rootfs/usr"
+ARG LIBVNCSERVER_DIR="${BUILD_ROOT}/libvncserver"
+ARG X11VNC_DIR="${BUILD_ROOT}/x11vnc"
+ARG STUNNEL_DIR="${BUILD_ROOT}/stunnel"
+# Setup Base Script
+RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
+		inst-pkg \
+			autoconf \
+            automake \
+			bash \
+			build-base \
+			cmake \
+			curl \
+			libtool \
+            libx11-dev \
+            libxtst-dev \
+            libjpeg-turbo-dev \
+            libpng-dev \
+            libxinerama-dev \
+            libxdamage-dev \
+            libxcomposite-dev \
+            libxcursor-dev \
+            libxrandr-dev \
+            libxfixes-dev \
+            libice-dev \
+			openssl \
+			openssl-dev \
+			tar \
+			xz && \
+	echo "##### Downloading Container items via Curl #####" && \
+		mkdir -p \
+			${BUILD_ROOT} \
+			${INSTALL_LOCATION} \
+			${LIBVNCSERVER_DIR}/build \
+			${X11VNC_DIR} \
+			${STUNNEL_DIR} && \
+	echo "##### Downloading Source Code #####" && \
+		curl -L -s ${LIBVNCSERVER_URL} 	| tar xvzf - -C ${LIBVNCSERVER_DIR} --strip-components 1 && \
+		curl -L -s ${X11VNC_URL} 		| tar xvzf - -C ${X11VNC_DIR} 		--strip-components 1 && \
+		curl -L -s ${STUNNEL_URL} 		| tar xvzf - -C ${STUNNEL_DIR} 		--strip-components 1 && \
+	echo "##### Compilation and Installation #####" && \
+	echo "LIBVNCSERVER" && \
+		cd "${LIBVNCSERVER_DIR}/build" && \
+		cmake -G "Unix Makefiles" \
+			-DWITH_OPENSSL=ON \
+			-DWITH_GNUTLS=OFF \
+			-DWITH_GCRYPT=OFF \
+			-DWITH_WEBSOCKETS=ON \
+			-DCMAKE_INSTALL_PREFIX="${INSTALL_LOCATION}" \
+			-DOPENSSL_ROOT_DIR="/usr/bin/openssl" \
+			.. && \
+		cmake --build . && \
+		PATH="$HOME/bin:$PATH" \
+			make && \
+			make install && \
+	echo "X11VNC" && \
+		cd "${X11VNC_DIR}" && \
+		autoreconf \
+			-fiv && \
+		PATH="$HOME/bin:$PATH" \
+		PKG_CONFIG_PATH="$PKG_CONFIG_PATH:${INSTALL_LOCATION}/lib64/pkgconfig/" \
+			./configure \
+				--prefix="${INSTALL_LOCATION}" && \
+		PATH="$HOME/bin:$PATH" \
+			make && \
+			make install && \
+	echo "STUNNEL" && \
+		cd "${STUNNEL_DIR}" && \
+		PATH="$HOME/bin:$PATH" \
+			./configure \
+				--prefix="${INSTALL_LOCATION}" && \
+		PATH="$HOME/bin:$PATH" \
+			make && \
+			make install && \
+	mv ${INSTALL_LOCATION}/lib64/* ${INSTALL_LOCATION}/lib/ && \
+	rm -rf \
+		${INSTALL_LOCATION}/lib64 \
+		${INSTALL_LOCATION}/etc \
+		${INSTALL_LOCATION}/share \
+		${INSTALL_LOCATION}/include \
+		${INSTALL_LOCATION}/var \
+		${INSTALL_LOCATION}/lib/pkgconfig \
+		${INSTALL_LOCATION}/lib/stunnel \
+		${INSTALL_LOCATION}/bin/Xdummy \
+		${INSTALL_LOCATION}/bin/stunnel3 && \
+	strip ${INSTALL_LOCATION}/lib/*.so* && \
+	strip ${INSTALL_LOCATION}/bin/*
+
+
 FROM ${BASE_IMAGE}
 MAINTAINER chris102994<chris102994@yahoo.com>
+COPY --from=compile-stage /rootfs/ /
 ARG BUILD_DATE
 ARG VERSION
 ARG VCS_REF
@@ -11,10 +114,8 @@ LABEL org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.build-date=$BUILD_DATE
 # Package Versions
 ARG NOVNC_VERSION=1.1.0
-ARG WEBSOCKIFY_VERSION=0.9.0
 # Package URLs
 ARG NOVNC_URL=https://github.com/novnc/noVNC/archive/v${NOVNC_VERSION}.tar.gz
-ARG WEBSOCKIFY_URL=https://github.com/novnc/websockify/archive/v${WEBSOCKIFY_VERSION}.tar.gz
 # ENV Vars for Builder Script
 RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 		inst-pkg --virtual build-dependencies \
@@ -26,26 +127,23 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 		echo "##### Downloading noVNC #####" && \
 			mkdir -p /etc/noVNC && \
 			curl -L -s ${NOVNC_URL} | tar xvzf - -C /etc/noVNC --strip-components 1 && \
-			mkdir -p /etc/noVNC/utils/websockify && \
-			curl -L -s ${WEBSOCKIFY_URL} | tar xvzf - -C /etc/noVNC/utils/websockify --strip-components 1 && \
-			# Busybox ps doesn't have -p option so we will do a simple pgrep for websockify
-			sed -i 's#if ! ps -p ${proxy_pid} >/dev/null; then#if [[ ! $(pgrep -f websockify) ]]; then#g' /etc/noVNC/utils/launch.sh && \
 			# Ensure the correct Icon shows up
 			sed -i -E 's#\s+<link rel="icon" sizes.*#    <link rel="icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">#g' /etc/noVNC/vnc.html && \
 			sed -i -E 's#\s+<link rel="apple-touch-icon" sizes.*#    <link rel="apple-touch-icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">#g' /etc/noVNC/vnc.html && \
 	echo "##### Downloading Runtime Packages #####" && \
 		inst-pkg \
-			libvncserver \
-			x11vnc \
-			xvfb \
-			xdpyinfo \
+			libxtst \
+			libxi \
+			libjpeg-turbo \
+			libxcomposite \
+			nginx \
 			openssl \
 			openbox \
-			python3 \
-			py-numpy \
-			nginx && \
+			xvfb \
+			xdpyinfo && \
 	echo "##### Removing Unnecessary Files#####" && \
 		rm -rf \
+			/etc/noVNC/docs/ \
 			/etc/xdg/autostart/ \
 			/etc/init.d/* \
 			/etc/nginx/nginx.conf \
@@ -68,8 +166,6 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 				--shell /sbin/nologin \
 				nginx && \
 		ln -s /config/log/nginx /var/lib/nginx/logs && \
-		ln -s /usr/bin/python3 /usr/bin/python && \
-		ln -s /usr/bin/pip3 /usr/bin/pip && \
 	echo "##### Cleaning Up #####" && \
 		rm-pkg build-dependencies
 
@@ -78,7 +174,7 @@ ENV DISPLAY=:0
 ENV DISPLAY_WIDTH=1280
 ENV DISPLAY_HEIGHT=720
 # VNC Web Interface VNC
-EXPOSE 5700 
+EXPOSE 5700
 # Add Local Files
 COPY rootfs/ /
 

@@ -5,6 +5,7 @@ set -e # Exit on error
 
 # Check process and kill if running.
 check_and_terminate_process 'x11vnc'
+check_and_terminate_process 'stunnel'
 
 # VNC Password
 ROOT_FILE="/root/.vncpass"
@@ -31,6 +32,8 @@ log "x11vnc" "Starting . . ."
 exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
 			/usr/bin/x11vnc \
 			-o /config/log/x11vnc/x11vnc.log \
+			-rfbport 5900 \
+			-stunnel /config/certs/vnc-server.pem \
 			-display $DISPLAY \
 			-desktop "${APP_NAME:-Docker Base GUI}" \
 			$VNC_PASS \

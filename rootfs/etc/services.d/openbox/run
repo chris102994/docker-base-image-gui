@@ -12,7 +12,7 @@ s6-svwait -t 10000 -U /var/run/s6/services/xvfb
 # Openbox homedir is HOME.
 export HOME=/config
 export DISPLAY=$DISPLAY
-export USER=user
+export USER=$USERNAME
 
 log "openbox" "Starting . . ."
 # This executes and notifies the notification-fd file so further processes can start.

@@ -1,4 +1,6 @@
-## A minimal docker base image that provides a GUI for future apps that support long-term deployement.
+## [chris102994/docker-base-image-gui](https://github.com/chris102994/docker-base-image-gui)
+
+This is a docker base image that can be used as a baseline for future containers that will be utilized for long-term deployments.
 
  [![Build Status](https://travis-ci.com/chris102994/docker-base-image-gui.svg?branch=master)](https://travis-ci.com/chris102994/docker-base-image-gui "Build Status")
 [![Microbadger Size & Layers](https://images.microbadger.com/badges/image/christopher102994/docker-base-image-gui.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui "Image Size")
@@ -21,7 +23,7 @@
 ```
 docker run \
 	--name=base-image-gui \
-  -e VNC_PASSWORD=password `optional` \
+  	-e VNC_PASSWORD=password `optional` \
 	-p 5700:5700 \
 	-v </path/to/appdata/config>:/config \
 	--restart unless-stopped \

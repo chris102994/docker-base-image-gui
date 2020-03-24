@@ -104,6 +104,7 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 ARG BASE_IMAGE=unknown
 FROM ${BASE_IMAGE}
 MAINTAINER chris102994<chris102994@yahoo.com>
+COPY --from=compile-stage /rootfs/ /
 ARG BUILD_DATE
 ARG VERSION
 ARG VCS_REF

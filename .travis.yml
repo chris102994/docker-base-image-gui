@@ -30,10 +30,11 @@ jobs:
       - git submodule update --init --remote
       - |
         tools/build/build_container.sh \
-        --envfile versions/debian-10.env \
+        --envfile versions/debian-11.env \
         --envfile versions/docker-base-image-gui.env \
         --build \
         --pushdr
+
   - stage: Ubuntu Container
     script:
       - git submodule update --init --remote

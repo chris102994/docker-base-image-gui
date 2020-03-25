@@ -31,7 +31,9 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 			libtool \
             libx11-dev \
             libxtst-dev \
+            libxext-dev \
             libpng-dev \
+            libjpeg-dev \
             libssl-dev \
             libxinerama-dev \
             libxdamage-dev \
@@ -43,7 +45,9 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
             make \
 			openssl \
 			pkg-config \
-			tar && \
+			tar \
+			zlib1g-dev \
+			tree && \
 	echo "##### Downloading Container items via Curl #####" && \
 		mkdir -p \
 			${BUILD_ROOT} \
@@ -64,6 +68,7 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 			-DWITH_GCRYPT=OFF \
 			-DWITH_WEBSOCKETS=ON \
 			-DCMAKE_INSTALL_PREFIX="${INSTALL_LOCATION}" \
+			-DOPENSSL_ROOT_DIR="/usr/bin/openssl" \
 			.. && \
 		cmake --build . && \
 		PATH="$HOME/bin:$PATH" \
@@ -98,7 +103,8 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 		${INSTALL_LOCATION}/bin/Xdummy \
 		${INSTALL_LOCATION}/bin/stunnel3 && \
 	strip ${INSTALL_LOCATION}/lib/*.so* && \
-	strip ${INSTALL_LOCATION}/bin/*
+	strip ${INSTALL_LOCATION}/bin/* && \
+	tree ${INSTALL_LOCATION}
 
 # Pull the base image
 ARG BASE_IMAGE=unknown
@@ -129,9 +135,9 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 			sed -i -E 's#\s+<link rel="apple-touch-icon" sizes.*#    <link rel="apple-touch-icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">#g' /etc/noVNC/vnc.html && \
 	echo "##### Downloading Runtime Packages #####" && \
 		inst-pkg \
-			nginx \
 			libxtst6 \
 			libxcomposite1 \
+			nginx \
 			openssl \
 			openbox \
 			xvfb \

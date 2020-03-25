@@ -130,6 +130,8 @@ RUN	echo "##### Downloading Virtual Build Dependencies #####" && \
 	echo "##### Downloading Runtime Packages #####" && \
 		inst-pkg \
 			nginx \
+			libxtst6 \
+			libxcomposite1 \
 			openssl \
 			openbox \
 			xvfb \

@@ -17,6 +17,6 @@ export USER=$USERNAME
 log "openbox" "Starting . . ."
 # This executes and notifies the notification-fd file so further processes can start.
 exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
-			s6-setuidgid $PUID:$PGID \
+			s6-setuidgid "${PUID}":"${PGID}" \
 			/usr/bin/openbox-session \
 			> /dev/null 2>&1

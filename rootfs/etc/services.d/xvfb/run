@@ -12,13 +12,13 @@ fi
 check_and_terminate_process 'Xvfb'
 
 # Ensure that there's no lockfile for the X server
-rm -rf /tmp/.X$(echo $DISPLAY | cut -d':' -f2)-lock
+rm -rf /tmp/.X"$(echo "${DISPLAY}" | cut -d':' -f2)"-lock
 
 log "xvfb" "Starting . . ."
 # This executes and notifies the notification-fd file so further processes can start.
 exec 2>&1 /bin/s6-notifyoncheck -d \
 		 /usr/bin/Xvfb \
-		 ${DISPLAY} \
-		 -screen 0 ${DISPLAY_WIDTH}x${DISPLAY_HEIGHT}x24 \
+		 "${DISPLAY}" \
+		 -screen 0 "${DISPLAY_WIDTH}"x"${DISPLAY_HEIGHT}"x24 \
 		 > /dev/null 2>&1
 

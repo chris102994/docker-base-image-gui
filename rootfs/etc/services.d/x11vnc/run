@@ -24,7 +24,7 @@ if [ ! -d '/config/log/x11vnc' ]; then
 	mkdir -p /config/log/x11vnc
 fi
 
-chown -R $PUID:$PGID /config/log/x11vnc
+chown -R "${PUID}":"${PGID}" /config/log/x11vnc
 chmod -R 0755 /config/log/x11vnc
 
 log "x11vnc" "Starting . . ."
@@ -34,7 +34,7 @@ exec 2>&1 	/bin/s6-notifyoncheck -d -w 500 \
 			-o /config/log/x11vnc/x11vnc.log \
 			-rfbport 5900 \
 			-stunnel /config/certs/vnc-server.pem \
-			-display $DISPLAY \
+			-display "${DISPLAY}" \
 			-desktop "${APP_NAME:-Docker Base GUI}" \
 			$VNC_PASS \
 			-cursor arrow \

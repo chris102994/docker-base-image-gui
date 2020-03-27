@@ -2,12 +2,17 @@
 
 This is a docker base image that can be used as a baseline for future containers that will be utilized for long-term deployments.
 
+### CI
  [![Build Status](https://travis-ci.com/chris102994/docker-base-image-gui.svg?branch=master)](https://travis-ci.com/chris102994/docker-base-image-gui "Build Status")
-[![Microbadger Size & Layers](https://images.microbadger.com/badges/image/christopher102994/docker-base-image-gui.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui "Image Size")
  [![Image Pulls](https://img.shields.io/docker/pulls/christopher102994/docker-base-image-gui)](https://hub.docker.com/repository/docker/christopher102994/docker-base-image-gui "Docker Hub Info")
- [![Alpine](https://images.microbadger.com/badges/version/christopher102994/docker-base-image-gui:alpine-3.10-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui:alpine-3.10-latest "Alpine Image")
- [![Debian](https://images.microbadger.com/badges/version/christopher102994/docker-base-image-gui:debian-10-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui:debian-10-latest "Debian Image")
- [![Ubuntu](https://images.microbadger.com/badges/version/christopher102994/docker-base-image-gui:ubuntu-18-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui:ubuntu-18-latest "Ubuntu Image")
+[![GitHub tag Version](https://img.shields.io/github/v/tag/chris102994/docker-base-image-gui?label=Version&style=plastic)](https://chris102994.github.io/containers/docker-base-image-gui/)
+
+### Images
+|Base Distribution|Tag|Size|
+|-----|-----|-----|
+| Ubuntu Bionic (18) | ubuntu-18-latest |[![](https://images.microbadger.com/badges/image/christopher102994/docker-base-image-gui:ubuntu-18-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui:ubuntu-18-latest "Image Size") |
+| Alpine 3.10 | alpine-3.10-latest |[![](https://images.microbadger.com/badges/image/christopher102994/docker-base-image-gui:alpine-3.10-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui:alpine-3.10-latest "Image Size") |
+| Debian Bullseye (11) | debian-11-latest |[![](https://images.microbadger.com/badges/image/christopher102994/docker-base-image-gui:debian-11-latest.svg)](https://microbadger.com/images/christopher102994/docker-base-image-gui:debian-11-latest "Image Size") |
 
 ## Outside Packages
 * Built on my [Base Image](https://github.com/chris102994/docker-base-image)

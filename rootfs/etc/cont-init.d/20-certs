@@ -44,7 +44,7 @@ chmod 400 "${CERT_DIR}/web-privkey.pem"
 
 # Generate VNC server cert
 if [ ! -f "${CERT_DIR}/vnc-server.pem" ]; then
-	log "$(basename $0) Generating self-signed certificate for VNC server, this will take a while. . ."
+	log "$(basename $0)" "Generating self-signed certificate for VNC server, this will take a while. . ."
 	TEMP_DIR="$(mktemp -d)"
 	env HOME=/tmp openssl req \
 				-x509 \

@@ -6,7 +6,7 @@ FROM ${BASE_IMAGE} as compile-stage
 # TODO: Once 0.9.13 releases use it instead
 ARG LIBVNCSERVER_VERSION=eae5306
 ARG X11VNC_VERSION=0.9.16
-ARG STUNNEL_VERSION=5.56
+ARG STUNNEL_VERSION=5.57
 # Package URLs
 ARG LIBVNCSERVER_URL=https://github.com/LibVNC/libvncserver/tarball/${LIBVNCSERVER_VERSION}
 ARG X11VNC_URL=https://github.com/LibVNC/x11vnc/archive/${X11VNC_VERSION}.tar.gz
